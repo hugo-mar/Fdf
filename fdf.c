@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:45:48 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/09/27 19:40:21 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:02:02 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,11 @@
 
 int	main(int argc, char **argv)
 {
-	if (argc != 2)		//Subject to change
+	t_map_data	map;
+
+	if (argc != 2)
 		return (1);
-	int	 fd;
-	char *line;
-	
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		return (1);	
-	while ((line = get_next_line(fd)))
-	{
-		printf("%s",line);
-		free(line);
-	}
+	map.file = argv[1];
+	get_map_info(&map);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toferrei <toferrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 10:42:42 by toferrei          #+#    #+#             */
-/*   Updated: 2024/05/23 15:38:36 by toferrei         ###   ########.fr       */
+/*   Created: 2024/05/24 16:42:29 by hugo-mar          #+#    #+#             */
+/*   Updated: 2024/10/01 19:59:46 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,15 @@
 #  define BUFFER_SIZE 10
 # endif
 
-# include <string.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <stdarg.h>
-# include <limits.h>
 # include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
-char	*get_next_line(int fd);
-int		ft_strlen(char *s);
+int		ft_strlen(const char *str);
+int		search_nl(char *str);
 void	ft_clean_buf(char *buf);
 char	*ft_strjoin(char *s1, char *s2);
-int		chrnline(char *s);
+char	*get_next_line(int fd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 10:42:45 by toferrei          #+#    #+#             */
-/*   Updated: 2024/09/27 19:31:20 by hugo-mar         ###   ########.fr       */
+/*   Created: 2024/06/06 15:36:47 by hugo-mar          #+#    #+#             */
+/*   Updated: 2024/06/10 14:27:52 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,52 @@
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1];
-	char		*result;
+	static char	buffer[BUFFER_SIZE + 1];
+	char		*line;
 	int			i;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
-	result = NULL;
+	line = NULL;
 	i = 1;
 	while (i > 0)
 	{
-		if (!*buf)
+		if (!*buffer)
 		{
-			i = read(fd, buf, BUFFER_SIZE);
+			i = read(fd, buffer, BUFFER_SIZE);
 			if (i == 0)
-				return (result);
+				return (line);
 			if (i == -1)
 				return (NULL);
-			buf[i] = '\0';
+			buffer[i] = '\0';
 		}
-		result = ft_strjoin(result, buf);
-		if (chrnline(result))
+		line = ft_strjoin(line, buffer);
+		ft_clean_buf(buffer);
+		if (search_nl(line))
 			break ;
 	}
-	return (result);
+	return (line);
 }
+
+/* int main()
+{
+	char *line;
+	int fd;
+	int n = 10;
+
+	fd = open ("file1.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		write (1, "Error opening file\n", 19);
+		return (1);
+	}
+	while (n)
+	{
+		line = get_next_line (fd);
+		printf("%s", line);
+		free (line);
+		n--;
+	}
+	close(fd);
+	return (0);
+} */

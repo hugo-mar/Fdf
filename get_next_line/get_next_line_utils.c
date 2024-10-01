@@ -3,80 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toferrei <toferrei@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/14 10:42:47 by toferrei          #+#    #+#             */
-/*   Updated: 2024/05/23 15:56:06 by toferrei         ###   ########.fr       */
+/*   Created: 2024/06/06 22:34:25 by hugo-mar          #+#    #+#             */
+/*   Updated: 2024/10/01 19:59:28 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *s)
+int	ft_strlen(const char *str)
 {
 	int	i;
 
-	i = 0;
-	if (!s)
+	if (!str)
 		return (0);
-	while (s[i] && s[i] != '\n')
+	i = 0;
+	while (str[i])
 		i++;
-	if (s[i] == '\n')
-		return (++i);
 	return (i);
 }
 
 void	ft_clean_buf(char *buf)
 {
 	int	i;
-	int	l;
 	int	j;
 
-	i = ft_strlen(buf) - 1;
+	i = 0;
 	j = 0;
-	l = 0;
-	while (buf[l])
-		l++;
-	buf[i++] = '\0';
-	while (i < l)
-		buf[j++] = buf[i++];
-	buf[j] = '\0';
+	while (buf[i] && buf[i] != '\n')
+		i++;
+	if (buf[i] == '\n')
+	{
+		i++;
+		while (buf[i])
+			buf[j++] = buf[i++];
+		buf[j] = '\0';
+	}
+	else
+		buf[0] = '\0';
 }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*s_res;
-	int		i;
-	int		j;
+	char	*joint;
+	size_t	i;
+	size_t	j;
 
-	j = 0;
 	i = 0;
-	s_res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!s_res)
+	j = 0;
+	joint = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!joint)
 		return (NULL);
 	if (s1)
 	{
 		while (s1[i])
-		{
-			s_res[i] = s1[i];
-			i++;
-		}
+			joint[j++] = s1[i++];
+		i = 0;
 	}
-	while (i < ft_strlen(s1) + ft_strlen(s2))
-		s_res[i++] = s2[j++];
-	s_res[i] = '\0';
+	while (s2[i] && s2[i] != '\n')
+		joint[j++] = s2[i++];
+	if (s2[i] == '\n')
+		joint[j++] = '\n';
+	joint[j] = '\0';
 	if (s1)
-		free(s1);
-	ft_clean_buf(s2);
-	return (s_res);
+		free (s1);
+	return (joint);
 }
 
-int	chrnline(char *s)
+int	search_nl(char *str)
 {
-	while (*s != '\0' && *s != '\n')
-		s++;
-	if (*s == '\n')
-		return (1);
-	else
-		return (0);
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
 }
