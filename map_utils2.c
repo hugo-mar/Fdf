@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:48:54 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/09/30 16:04:31 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/02 02:42:39 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,25 @@ static int	get_point_color(char *color_str)
 	return (color);
 }
 
-static void	process_point(t_map_data *map, char *point, int row, int column)
+static void	process_point(t_map_data *map, char *point, int column)
 {
-	char	**value_and_color;
+	char	**z_and_color;
 
-	value_and_color = ft_split(point, ',');
-	if (!value_and_color)
+	z_and_color = ft_split(point, ',');
+	if (!z_and_color)
 		handle_error(NULL, NULL, "Memory allocation error\n");
-	map->data[row][column].value = get_point_value(value_and_color[0]);
-	if (value_and_color[1])
-		map->data[row][column].color = get_point_color(value_and_color[1]);
+	map->points[map->current_index].x = column;
+	map->points[map->current_index].y = map->current_row;
+	map->points[map->current_index].z = get_point_value(z_and_color[0]);
+	if (z_and_color[1])
+		map->points[map->current_index].color = get_point_color(z_and_color[1]);
 	else
-		map->data[row][column].color = 16777215;
-	ft_free(value_and_color);
+		map->points[map->current_index].color = 16777215;
+	map->current_index++;
+	ft_free(z_and_color);
 }
 
-static void	process_line(t_map_data *map, char *line, int row)
+static void	process_line(t_map_data *map, char *line)
 {
 	int		column;
 	char	**points;
@@ -67,24 +70,27 @@ static void	process_line(t_map_data *map, char *line, int row)
 	free(line);
 	while (column < map->width)
 	{
-		process_point(map, points[column], row, column);
+		process_point(map, points[column], column);
 		column++;
 	}
+	map->current_row++;
 	ft_free(points);
 }
 
 void	fill_map_data(t_map_data *map, int fd)
 {
 	char	*line;
-	int		row;
 
-	row = 0;
+	map->current_index = 0;
+	map->current_row = 0;
+	map->points = malloc(map->width * map->height * sizeof(t_point));
+	if (!map->points)
+		handle_error(NULL, NULL, "Memory allocation error\n");
 	line = get_next_line(fd);
 	while (line)
 	{
-		process_line(map, line, row);
-		row++;
-		if (row > map->height)
+		process_line(map, line);
+		if (map->current_row > map->height)
 		{
 			write(1, "Error: Exceeded map height\n", 27);
 			exit(1);

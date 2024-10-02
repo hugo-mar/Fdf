@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 19:44:23 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/09/30 17:20:01 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/02 02:25:34 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,22 @@ void	get_map_size(t_map_data *map)
 	map->height = height;
 }
 
+void	free_map_data(t_map_data *map)
+{
+	if (map->points)
+	{
+		free(map->points);
+		map->points = NULL;
+	}
+}
+
 void	get_map_info(t_map_data *map)
 {
 	int	fd;
 
 	open_map_file(map, &fd);
 	get_map_size(map);
-	if (!allocate_map(map))
-	{
-		close(fd);
-		handle_error(NULL, NULL, "Error allocating map\n");
-	}
 	fill_map_data(map, fd);
-	free_map(map);
+	free_map_data(map);
 	close(fd);
 }
