@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:00:11 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/02 01:25:57 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:17:26 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	handle_error(char **points, char **value_and_color, const char *msg)
 		ft_free(points);
 	if (value_and_color)
 		ft_free(value_and_color);
-	write(1, msg, ft_strlen(msg));
+	if (write(1, msg, ft_strlen(msg)) == -1)
+		perror("write");
 	exit(1);
 }
 

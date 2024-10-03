@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:48:54 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/02 02:42:39 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:11:12 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	fill_map_data(t_map_data *map, int fd)
 		process_line(map, line);
 		if (map->current_row > map->height)
 		{
-			write(1, "Error: Exceeded map height\n", 27);
-			exit(1);
+			if (write(1, "Error: Exceeded map height\n", 27) == -1)
+				perror("write");
 		}
 		line = get_next_line(fd);
 	}
