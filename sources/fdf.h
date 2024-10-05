@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 17:52:32 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 01:58:08 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/05 03:10:11 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_map_data
 	int			current_row;
 	int			current_index;
 	t_point		*points;
+	t_mlx_data	*mlx_data;
 }			t_map_data;
 
 typedef struct s_bounds

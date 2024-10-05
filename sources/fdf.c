@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:45:48 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 00:45:09 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/05 03:10:21 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (1);
 	map.file = argv[1];
+	map.mlx_data = &mlx_data;
 	init_mlx(&mlx_data);
 	clear_image(&mlx_data);
 	map_read_and_draw(&map, &mlx_data);
