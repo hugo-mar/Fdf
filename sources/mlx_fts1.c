@@ -1,52 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_fts1.c                                         :+:      :+:    :+:   */
+/*   mlx_fts3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 09:23:58 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:01:57 by hugo-mar         ###   ########.fr       */
+/*   Created: 2024/10/05 00:43:50 by hugo-mar          #+#    #+#             */
+/*   Updated: 2024/10/05 00:50:18 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color)
+void	init_mlx(t_mlx_data *mlx_data)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	mlx_data->mlx = mlx_init();
+	mlx_data->win = mlx_new_window(mlx_data->mlx, WIN_WIDTH, WIN_HEIGHT, "fdf");
+	mlx_data->img = mlx_new_image(mlx_data->mlx, WIN_WIDTH, WIN_HEIGHT);
+	mlx_data->addr = mlx_get_data_addr(mlx_data->img, &mlx_data->bits_per_pixel,
+			&mlx_data->line_length, &mlx_data->endian);
 }
 
-void	clear_image(t_mlx_data *data)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < WIN_HEIGHT)
-	{
-		x = 0;
-		while (x < WIN_WIDTH)
-		{
-			my_mlx_pixel_put(data, x, y, 0x00000000);
-			x++;
-		}
-		y++;
-	}
-}
-
-int	keyboard_exit(int keycode, t_mlx_data *data)
+static int	keyboard_exit(int keycode, t_mlx_data *data)
 {
 	if (keycode == ESC_KEY)
 		mlx_loop_end(data->mlx);
 	return (0);
 }
 
-int	mouse_exit(t_mlx_data *data)
+static int	mouse_exit(t_mlx_data *data)
 {
 	mlx_loop_end(data->mlx);
 	return (0);
+}
+
+void	setup_hooks_and_loop(t_mlx_data *mlx_data)
+{
+	mlx_hook(mlx_data->win, 2, 1L << 0, keyboard_exit, mlx_data);
+	mlx_hook(mlx_data->win, 17, 0L, mouse_exit, mlx_data);
+	mlx_loop(mlx_data->mlx);
+}
+
+void	cleanup_mlx(t_mlx_data *mlx_data)
+{
+	mlx_destroy_image(mlx_data->mlx, mlx_data->img);
+	mlx_destroy_window(mlx_data->mlx, mlx_data->win);
+	mlx_destroy_display(mlx_data->mlx);
+	free(mlx_data->mlx);
 }

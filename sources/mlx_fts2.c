@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:59:26 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:02:49 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/05 02:06:07 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,40 @@ void	draw_line(t_line *line, t_mlx_data *data, int color)
 			line->err += line->dx;
 			line->y0 += line->sy;
 		}
+	}
+}
+
+static void	set_and_draw(t_mlx_data *mlx_data, t_point *points, int i1, int i2)
+{
+	t_line	line;
+
+	line.x0 = points[i1].x;
+	line.y0 = points[i1].y;
+	line.x1 = points[i2].x;
+	line.y1 = points[i2].y;
+	draw_line(&line, mlx_data, points[i1].color);
+}
+
+void	sketch(t_mlx_data *mlx_data, t_point *points, int width, int height)
+{
+	int	index;
+	int	h;
+	int	w;
+
+	h = 0;
+	index = 0;
+	while (h < height)
+	{
+		w = 0;
+		while (w < width)
+		{
+			if (w < width - 1)
+				set_and_draw(mlx_data, points, index, index + 1);
+			if (h < height - 1)
+				set_and_draw(mlx_data, points, index, index + width);
+			w++;
+			index++;
+		}
+		h++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 19:44:23 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/02 02:25:34 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/04 23:33:07 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,15 @@ void	free_map_data(t_map_data *map)
 	}
 }
 
-void	get_map_info(t_map_data *map)
+void	map_read_and_draw(t_map_data *map, t_mlx_data *mlx_data)
 {
 	int	fd;
 
-	open_map_file(map, &fd);
 	get_map_size(map);
+	open_map_file(map, &fd);
 	fill_map_data(map, fd);
+	set_points(map->points, map->width, map->height);
+	sketch(mlx_data, map->points, map->width, map->height);
 	free_map_data(map);
 	close(fd);
 }

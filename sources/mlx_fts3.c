@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   mlx_fts1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/27 15:45:48 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 00:45:09 by hugo-mar         ###   ########.fr       */
+/*   Created: 2024/10/03 09:23:58 by hugo-mar          #+#    #+#             */
+/*   Updated: 2024/10/05 00:50:49 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	main(int argc, char **argv)
+void	my_mlx_pixel_put(t_mlx_data *data, int x, int y, int color)
 {
-	t_map_data	map;
-	t_mlx_data	mlx_data;
+	char	*dst;
 
-	if (argc != 2)
-		return (1);
-	map.file = argv[1];
-	init_mlx(&mlx_data);
-	clear_image(&mlx_data);
-	map_read_and_draw(&map, &mlx_data);
-	mlx_put_image_to_window(mlx_data.mlx, mlx_data.win, mlx_data.img, 0, 0);
-	setup_hooks_and_loop(&mlx_data);
-	cleanup_mlx(&mlx_data);
-	return (0);
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+void	clear_image(t_mlx_data *data)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < WIN_HEIGHT)
+	{
+		x = 0;
+		while (x < WIN_WIDTH)
+		{
+			my_mlx_pixel_put(data, x, y, 0x00000000);
+			x++;
+		}
+		y++;
+	}
 }
