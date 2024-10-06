@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 19:44:23 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/04 23:33:07 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:48:12 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	open_map_file(t_map_data *map, int *fd)
 {
 	*fd = open(map->file, O_RDONLY);
 	if (*fd == -1)
-		handle_error(NULL, NULL, "Error opening file\n");
+		handle_error(map, NULL, NULL, "Error opening file\n");
 }
 
 void	get_map_size(t_map_data *map)
@@ -33,7 +33,7 @@ void	get_map_size(t_map_data *map)
 	while (line)
 	{
 		width = 0;
-		line = ft_strtrimtwist(line, " \n");
+		line = ft_strtrimtwist(line, " \n", map);
 		points = ft_split(line, ' ');
 		while (points[width])
 			width++;

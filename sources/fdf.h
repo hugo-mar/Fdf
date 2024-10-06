@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 17:52:32 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 03:10:11 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:47:43 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,15 @@ typedef struct s_line
 
 void	ft_free(char **argv);
 char	**ft_split(char const *s, char c);
-char	*ft_strtrimtwist(char *s1, char const *set);
+char	*ft_strtrimtwist(char *s1, char const *set, t_map_data *map);
 long	ft_atol_base(const char *nptr, int base);
 
 void	map_read_and_draw(t_map_data *map, t_mlx_data *mlx_data);
 void	get_map_size(t_map_data *map);
 void	free_map_data(t_map_data *map);
 void	fill_map_data(t_map_data *map, int fd);
-void	handle_error(char **points, char **value_and_color, const char *msg);
+void	handle_error(t_map_data *data, char **points, char **value_and_color,
+			const char *msg);
 void	map_check_and_free(t_map_data *data, int wd, char *line, char **points);
 bool	point_validity(char *point);
 

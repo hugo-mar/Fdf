@@ -6,14 +6,16 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:00:11 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 03:13:38 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:43:27 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	handle_error(char **points, char **value_and_color, const char *msg)
+void	handle_error(t_map_data *data, char **points, char **value_and_color,
+			const char *msg)
 {
+	cleanup_mlx(data->mlx_data);
 	if (points)
 		ft_free(points);
 	if (value_and_color)
@@ -27,9 +29,8 @@ void	map_check_and_free(t_map_data *data, int wd, char *line, char **points)
 {
 	if (wd != data->width)
 	{
-		cleanup_mlx(data->mlx_data);
 		free(line);
-		handle_error(points, NULL, "Invalid map\n");
+		handle_error(data, points, NULL, "Invalid map\n");
 	}
 	ft_free(points);
 	free(line);

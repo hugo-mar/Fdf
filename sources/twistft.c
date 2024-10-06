@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 03:05:13 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/02 01:24:19 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 01:46:32 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	suf_len(char const *s1, char const *set)
 	return (0);
 }
 
-char	*ft_strtrimtwist(char *s1, char const *set)
+char	*ft_strtrimtwist(char *s1, char const *set, t_map_data *map)
 {
 	char	*trimmed;
 	size_t	i;
@@ -76,7 +76,7 @@ char	*ft_strtrimtwist(char *s1, char const *set)
 	len = ft_strlen(s1) - pre_len(s1, set) - suf_len(s1, set);
 	trimmed = (char *) malloc (sizeof(char) * (len + 1));
 	if (!trimmed)
-		handle_error(NULL, NULL, "Memory allocation error\n");
+		handle_error(map, NULL, NULL, "Memory allocation error\n");
 	while (i < len)
 	{
 		trimmed[i] = s1[pre_len(s1, set) + i];
