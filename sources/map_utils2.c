@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:48:54 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/06 01:48:42 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:18:24 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ static void	process_point(t_map_data *map, char *point, int column)
 	z_and_color = ft_split(point, ',');
 	if (!z_and_color)
 		handle_error(map, NULL, NULL, "Memory allocation error\n");
-	map->points[map->current_index].x = column;
-	map->points[map->current_index].y = map->current_row;
-	map->points[map->current_index].z = get_point_value(map, z_and_color[0]);
+	map->points[map->index].x = column;
+	map->points[map->index].y = map->row;
+	map->points[map->index].z = get_point_value(map, z_and_color[0]);
 	if (z_and_color[1])
-		map->points[map->current_index].color
+		map->points[map->index].color
 			= get_point_color(map, z_and_color[1]);
 	else
-		map->points[map->current_index].color = 16777215;
-	map->current_index++;
+		map->points[map->index].color = 16777215;
+	map->index++;
 	ft_free(z_and_color);
 }
 
@@ -74,7 +74,7 @@ static void	process_line(t_map_data *map, char *line)
 		process_point(map, points[column], column);
 		column++;
 	}
-	map->current_row++;
+	map->row++;
 	ft_free(points);
 }
 
@@ -82,8 +82,8 @@ void	fill_map_data(t_map_data *map, int fd)
 {
 	char	*line;
 
-	map->current_index = 0;
-	map->current_row = 0;
+	map->index = 0;
+	map->row = 0;
 	map->points = malloc(map->width * map->height * sizeof(t_point));
 	if (!map->points)
 		handle_error(map, NULL, NULL, "Memory allocation error\n");
@@ -91,7 +91,7 @@ void	fill_map_data(t_map_data *map, int fd)
 	while (line)
 	{
 		process_line(map, line);
-		if (map->current_row > map->height)
+		if (map->row > map->height)
 		{
 			free(line);
 			handle_error(map, NULL, NULL, "Error: Exceeded map height\n");

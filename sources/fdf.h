@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 17:52:32 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/06 01:47:43 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:20:03 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_map_data
 	char		*file;
 	int			width;
 	int			height;
-	int			current_row;
-	int			current_index;
+	int			index;
+	int			row;
 	t_point		*points;
 	t_mlx_data	*mlx_data;
 }			t_map_data;

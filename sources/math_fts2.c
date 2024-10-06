@@ -3,28 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   math_fts2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 20:35:52 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 02:04:10 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:23:32 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	compute_bounds(t_point *points, int count, t_bounds *bounds)
+static void	iso_projection(int *x, int *y, int z)
+{
+	int	x_proj;
+	int	y_proj;
+
+	x_proj = (int)round((*x) * cos(P_ANGLE) - (*y) * cos(P_ANGLE));
+	y_proj = (int)round((*x) * sin(P_ANGLE) + (*y) * sin(P_ANGLE) - z);
+	*x = x_proj;
+	*y = y_proj;
+}
+
+void	apply_isometric_projection(t_point *points, int count)
 {
 	int	index;
-	int	x;
-	int	y;
 
 	index = 0;
-	initialize_bounds(bounds);
 	while (index < count)
 	{
-		x = points[index].x;
-		y = points[index].y;
-		update_bounds(bounds, x, y);
+		iso_projection(&points[index].x, &points[index].y, points[index].z);
 		index++;
 	}
 }
@@ -75,17 +81,4 @@ void	calculate_and_move(t_bounds *bounds, t_point *points, int count)
 		points[index].y += to_move_y;
 		index++;
 	}
-}
-
-void	set_points(t_point *points, int width, int height)
-{
-	t_bounds	bounds;
-	int			count;
-
-	count = width * height;
-	compute_projected_bounds(points, count, &bounds);
-	calculate_and_scale(&bounds, points, count);
-	apply_isometric_projection(points, count);
-	compute_bounds(points, count, &bounds);
-	calculate_and_move(&bounds, points, count);
 }

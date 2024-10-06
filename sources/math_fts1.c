@@ -3,37 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   math_fts1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:51:11 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 02:03:28 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/06 17:22:53 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static void	iso_projection(int *x, int *y, int z)
-{
-	int	x_proj;
-	int	y_proj;
-
-	x_proj = (int)round((*x) * cos(P_ANGLE) - (*y) * cos(P_ANGLE));
-	y_proj = (int)round((*x) * sin(P_ANGLE) + (*y) * sin(P_ANGLE) - z);
-	*x = x_proj;
-	*y = y_proj;
-}
-
-void	apply_isometric_projection(t_point *points, int count)
-{
-	int	index;
-
-	index = 0;
-	while (index < count)
-	{
-		iso_projection(&points[index].x, &points[index].y, points[index].z);
-		index++;
-	}
-}
 
 void	initialize_bounds(t_bounds *bounds)
 {
@@ -72,4 +49,34 @@ void	compute_projected_bounds(t_point *points, int count, t_bounds *bounds)
 		update_bounds(bounds, x_proj, y_proj);
 		index++;
 	}
+}
+
+void	compute_bounds(t_point *points, int count, t_bounds *bounds)
+{
+	int	index;
+	int	x;
+	int	y;
+
+	index = 0;
+	initialize_bounds(bounds);
+	while (index < count)
+	{
+		x = points[index].x;
+		y = points[index].y;
+		update_bounds(bounds, x, y);
+		index++;
+	}
+}
+
+void	set_points(t_point *points, int width, int height)
+{
+	t_bounds	bounds;
+	int			count;
+
+	count = width * height;
+	compute_projected_bounds(points, count, &bounds);
+	calculate_and_scale(&bounds, points, count);
+	apply_isometric_projection(points, count);
+	compute_bounds(points, count, &bounds);
+	calculate_and_move(&bounds, points, count);
 }
