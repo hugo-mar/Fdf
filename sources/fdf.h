@@ -6,7 +6,7 @@
 /*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 17:52:32 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/06 16:20:03 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:55:01 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	free_map_data(t_map_data *map);
 void	fill_map_data(t_map_data *map, int fd);
 void	handle_error(t_map_data *data, char **points, char **value_and_color,
 			const char *msg);
+void	check_empty_map(char *file);
 void	map_check_and_free(t_map_data *data, int wd, char *line, char **points);
 bool	point_validity(char *point);
 

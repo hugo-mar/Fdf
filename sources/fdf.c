@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 15:45:48 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/05 03:10:21 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:56:16 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (1);
+	check_empty_map(argv[1]);
 	map.file = argv[1];
 	map.mlx_data = &mlx_data;
 	init_mlx(&mlx_data);

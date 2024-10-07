@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugo-mar <hugo-mar@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: hugo-mar <hugo-mar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:00:11 by hugo-mar          #+#    #+#             */
-/*   Updated: 2024/10/06 01:43:27 by hugo-mar         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:53:57 by hugo-mar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,31 @@ bool	point_validity(char *point)
 		point++;
 	}
 	return (true);
+}
+
+void	check_empty_map(char *file)
+{
+	int		fd;
+	char	buffer[50];
+	int		bytes_read;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		perror ("Error opening file");
+		exit(1);
+	}
+	bytes_read = read(fd, buffer, sizeof(buffer));
+	if (bytes_read == -1)
+	{
+		perror ("Error reading file");
+		close (fd);
+		exit(1);
+	}
+	if (bytes_read == 0)
+	{
+		close (fd);
+		exit(0);
+	}
+	close (fd);
 }
